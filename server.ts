@@ -19,4 +19,14 @@ app.post('/create', async (req, res) => {
     }
 });
 
+app.get('/user/:id', async (req, res) => {
+    try{
+        const id = parseInt(req.params.id);
+        const result = await controller.getUser(id);
+        res.json(result);
+    }catch(e){
+        res.json({message:e});
+    }
+});
+
 app.listen(process.env.PORT, ()=>{console.log('Server is on')})

@@ -11,3 +11,14 @@ export async function saveUser(user: any) {
         }
     }
 }
+
+export async function getUser(id: number) {
+    try {
+        const user = await repository.getUser(id);
+        return response.userFormated(user);
+    } catch (e) {
+        return { 
+            message: e
+        }
+    }
+}

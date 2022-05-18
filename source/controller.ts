@@ -12,3 +12,14 @@ export async function createUser(user: any) {
         }
     }
 }
+
+export async function getUser(id: number) {
+    try {
+        const user = await service.getUser(id);
+        return user;
+    } catch (e) {
+        return { 
+            message: e 
+        }
+    }
+}

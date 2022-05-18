@@ -7,3 +7,13 @@ export async function saveUser(user: any){
     })
     return newUser;
 }
+
+export async function getUser(id: number){
+    const prisma = new PrismaClient()
+    const user = await prisma.user.findUnique({
+        where: {
+            id: id
+        }
+    })
+    return user;
+}
