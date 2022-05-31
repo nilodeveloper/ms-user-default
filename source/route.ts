@@ -4,7 +4,9 @@ import * as controller from './controller';
 export const route = express()
 
 route.get('/', (req, res) => {
-    res.json({server: "is on"});
+    res.json({
+        server: "is on"
+    });
 });
 
 route.post('/create', async (req, res) => {

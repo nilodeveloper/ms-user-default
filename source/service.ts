@@ -1,10 +1,17 @@
 import * as repository from './repository';
 import * as response from  './response';
+import * as bcrypt from 'bcrypt';
 
 export async function saveUser(user: any) {
     try {
-        const newUser = await repository.saveUser(user);
-        return response.userFormated(newUser);
+        const saltRounds = 10;
+        bcrypt.genSalt(saltRounds, function(err, salt) {
+            bcrypt.hash(user.password, salt, async function(err, hash) {
+                user.password = hash;
+                const newUser = await repository.saveUser(user);
+                return response.userFormated(newUser);
+            });
+        });
     } catch (e) {
         return { 
             message: e
