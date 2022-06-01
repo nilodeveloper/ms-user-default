@@ -20,6 +20,18 @@ route.post('/create', async (req, res) => {
     }
 });
 
+route.post('/change/password', async (req, res) => {
+    try{
+        const result = await controller.changePassword(req.body);
+        res.status(result.statusCode).json(result);
+    }catch(e){
+        res.json({
+            message:e,
+            statusCode: 500
+        });
+    }
+});
+
 route.get('/user/:id', async (req, res) => {
     try{
         const id = parseInt(req.params.id);
