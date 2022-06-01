@@ -56,28 +56,3 @@ export async function getUser(id: number) {
         }
     }
 }
-
-/*
-
-        bcrypt.compare(user.passwords.old, hash, function(err, result) {
-            if(result){
-                const saltRounds = 10;
-                bcrypt.genSalt(saltRounds, function(err, salt) {
-                    bcrypt.hash(user.passwords.new, salt, async function(err, newHash) {
-                        const a = await repository.updatePassword(user.id, newHash);
-                        resultado = "nilo"
-                        console.log(resultado);
-                    });
-                });
-                console.log(resultado);
-            }else{
-                resultado = "erika"
-                console.log('deu ruim')
-                return { message: "Não foi possível trocar sua senha. Senha atual está errada" };
-            }
-            console.log('resultado', resultado);
-        });
-
-
-
-*/
