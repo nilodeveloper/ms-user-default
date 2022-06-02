@@ -12,7 +12,7 @@ export async function login(credentials: any) {
             throw "Ocorreu um erro"
         }
         if(match){
-            const token = jwt.sign({ email: user.email }, process.env.SECRET);
+            const token = jwt.sign({ email: user.email, generated: new Date() }, process.env.SECRET);
             return response.loginSuccess("Login feito com sucesso!", token);
         }else{
             return response.loginFail("Falha de login. Usuário ou senha incorretos");
