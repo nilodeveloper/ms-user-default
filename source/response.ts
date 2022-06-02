@@ -8,3 +8,30 @@ export async function userFormated(user: any) {
         }
     }
 }
+
+export async function loginSuccess(message: any, token: string) {
+    try {
+        return {
+            message: "Login feito com sucesso",
+            token: token,
+            statusCode: 200
+        }
+    } catch (e) {
+        return { 
+            message: e
+        }
+    }
+}
+
+export async function loginFail(message: any) {
+    try {
+        return {
+            message: "Falha de login. Usuário ou senha incorreto",
+            statusCode: 401
+        }
+    } catch (e) {
+        return { 
+            message: e
+        }
+    }
+}

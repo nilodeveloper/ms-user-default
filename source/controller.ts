@@ -1,6 +1,18 @@
 import * as validation from './validation';
 import * as service from './service';
 
+export async function login(credentials: any) {
+    try {
+        const result = await service.login(credentials);
+        return result;
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
+        }
+    }
+}
+
 export async function createUser(user: any) {
     try {
         const userValided = validation.user(user);
@@ -8,7 +20,8 @@ export async function createUser(user: any) {
         return newUser;
     } catch (e) {
         return { 
-            message: e 
+            message: e,
+            statusCode: 500
         }
     }
 }
@@ -19,7 +32,8 @@ export async function getUser(id: number) {
         return user;
     } catch (e) {
         return { 
-            message: e 
+            message: e,
+            statusCode: 500
         }
     }
 }

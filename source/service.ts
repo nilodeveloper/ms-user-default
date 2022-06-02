@@ -1,6 +1,29 @@
 import * as repository from './repository';
 import * as response from  './response';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import 'dotenv/config'
+
+export async function login(credentials: any) {
+    try {
+        const user = await repository.getPasswordByEmail(credentials.email);
+        const match = await bcrypt.compare(credentials.password, user.password);
+        if(!process.env.SECRET){
+            throw "Ocorreu um erro"
+        }
+        if(match){
+            const token = jwt.sign({ email: user.email }, process.env.SECRET);
+            return response.loginSuccess("Login feito com sucesso!", token);
+        }else{
+            return response.loginFail("Falha de login. Usuário ou senha incorretos");
+        }
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
+        }
+    }
+}
 
 export async function saveUser(user: any) {
     try {

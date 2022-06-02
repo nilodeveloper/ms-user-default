@@ -8,6 +8,23 @@ export async function saveUser(user: any){
     return newUser;
 }
 
+export async function getPasswordByEmail(email: any){
+    const prisma = new PrismaClient()
+    const confirmUser = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    if(!confirmUser){
+        return {
+            id: "",
+            email: "",
+            password: ""
+        }
+    }
+    return confirmUser
+}
+
 export async function checkPassword(id: any){
     const prisma = new PrismaClient()
     const confirmUser = await prisma.user.findUnique({
