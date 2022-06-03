@@ -41,7 +41,6 @@ export async function createUser(user: any) {
 export async function getProfile(token: string) {
     try {
         const profile = await service.getProfile(token);
-        console.log('profile na controller', profile)
         return profile;
     } catch (err: any) {
         return { 
@@ -66,7 +65,6 @@ export async function getUser(login: string) {
 export async function changePassword(user: any) {
     try {
         const result = await service.changePassword(user);
-        console.log("result no controller", result);
         return result;
     } catch (e) {
         return { 

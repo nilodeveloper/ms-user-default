@@ -53,7 +53,6 @@ route.get('/profile', async (req, res) => {
             throw { message: "Token is null", statusCode: 400 }
         }
         const result = await controller.getProfile(req.headers.authorization);
-        console.log('result na route', result)
         res.status(result.statusCode).json(result);
     }catch(err: any){
         res.status(err.statusCode).json({

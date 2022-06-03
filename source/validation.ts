@@ -32,8 +32,6 @@ export function token(token: string) {
                 }
             }else{
                 const validTokenTime = await repository.getValidTokenTime(decoded.email);
-                console.log('time do banco: ',validTokenTime);
-                console.log('time do token: ',decoded.generated);
                 if(validTokenTime > decoded.generated){
                     return {
                         message: "Token inválido, usuário deslogado de todos os dispositivos",
