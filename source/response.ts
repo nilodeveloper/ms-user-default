@@ -1,3 +1,5 @@
+import * as messages from './messages.json';
+
 export async function userFormated(user: any) {
     try {
         const {name, lastname, login} = user;
@@ -7,13 +9,13 @@ export async function userFormated(user: any) {
                 lastname,
                 login,
             },
+            message: messages.get_user_success,
             statusCode: 200,
-            message: "Usuário resgatado com sucesso"
         };
     } catch (e) {
         console.log('Error: ',e)
         return { 
-            message: "Ocorreu um erro no servidor", 
+            message: messages.server_error, 
             statusCode: 500
         }
     }
@@ -28,46 +30,46 @@ export async function getProfile(user: any) {
                 login: user.login,
                 email: user.email,
             },
-            message: "Usuário resgatado com sucesso",
-            statusCode: 200
+            message: messages.get_user_success,
+            statusCode: 200,
         }
     } catch (err: any) {
         console.log('Error: ',err)
         return { 
-            message: "Ocorreu um erro no servidor", 
+            message: messages.server_error, 
             statusCode: 500
         }
     }
 }
 
-export async function loginSuccess(message: any, token: string) {
+export async function loginSuccess(token: string) {
     try {
         return {
             data:{
                 token: token,
             },
-            message: "Login feito com sucesso",
+            message: messages.login_success,
             statusCode: 200
         }
     } catch (e) {
         console.log('Error: ',e)
         return { 
-            message: "Ocorreu um erro interno no servidor",
+            message: messages.server_error,
             statusCode: 500
         }
     }
 }
 
-export async function loginFail(message: any) {
+export async function loginFail() {
     try {
         return {
-            message: "Falha de login. Usuário ou senha incorreto",
+            message: messages.user_or_pass_incorrect,
             statusCode: 401
         }
     } catch (e) {
         console.log('Error: ',e)
         return { 
-            message: "Ocorreu um erro interno no servidor",
+            message: messages.server_error,
             statusCode: 500
         }
     }

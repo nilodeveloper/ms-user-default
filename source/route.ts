@@ -1,5 +1,6 @@
 import express from 'express';
 import * as controller from './controller';
+import * as messages from './messages.json';
 
 export const route = express()
 
@@ -16,7 +17,7 @@ route.post('/login', async (req, res) => {
     }catch(e){
         console.log("error", e)
         res.json({
-            message:"Erro interno no servidor",
+            message: messages.server_error,
             statusCode: 500
         });
     }

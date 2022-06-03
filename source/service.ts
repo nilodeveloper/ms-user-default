@@ -14,9 +14,9 @@ export async function login(credentials: any) {
         }
         if(match){
             const token = jwt.sign({ email: user.email, generated: Math.floor(Date.now() / 1000) }, process.env.SECRET);
-            return response.loginSuccess("Login feito com sucesso!", token);
+            return response.loginSuccess(token);
         }else{
-            return response.loginFail("Falha de login. Usuário ou senha incorretos");
+            return response.loginFail();
         }
     } catch (e) {
         return { 
