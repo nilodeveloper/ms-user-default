@@ -25,6 +25,23 @@ export async function getPasswordByEmail(email: any){
     return confirmUser
 }
 
+export async function getValidTokenTime(email: any){
+    const prisma = new PrismaClient()
+    const confirmUser = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    if(!confirmUser){
+        return {
+            id: "",
+            email: "",
+            password: ""
+        }
+    }
+    return confirmUser.validTokenTime
+}
+
 export async function getUserByEmail(email: any){
     const prisma = new PrismaClient()
     const confirmUser = await prisma.user.findUnique({
@@ -39,6 +56,20 @@ export async function getUserByEmail(email: any){
         }
     }
     return confirmUser
+}
+
+export async function registerValidTokenTime(email: any){
+    const prisma = new PrismaClient()
+    const time = Date.now() / 1000;
+    const updateUser = await prisma.user.update({
+        where: {
+            email: email,
+        },
+        data: {
+            validTokenTime: Math.floor(time),
+        },
+    })
+    return updateUser.validTokenTime
 }
 
 export async function checkPassword(id: any){

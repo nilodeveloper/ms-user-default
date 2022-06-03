@@ -26,6 +26,25 @@ export async function login(credentials: any) {
     }
 }
 
+export async function logoutAll(token: string) {
+    try {
+        const result: any = await validation.token(token);
+        const newTime = await repository.registerValidTokenTime(result.email);
+        return {
+            data:{
+                newTime
+            },
+            message: "Conta deslogada de todos os dispositivos com sucesso!",
+            statusCode: 200
+        }
+    } catch (err: any) {
+        return { 
+            message: err.message,
+            statusCode: err.statusCode,
+        }
+    }
+}
+
 export async function saveUser(user: any) {
     try {
         const saltRounds = 10;
@@ -49,7 +68,7 @@ export async function getProfile(token: string) {
         if(result.statusCode){
             return result
         }else{
-            const user = await repository.getUserByEmail(result);
+            const user = await repository.getUserByEmail(result.email);
             return response.getProfile(user);
         }
     } catch (e) {

@@ -22,6 +22,19 @@ route.post('/login', async (req, res) => {
     }
 });
 
+route.post('/logout/all', async (req, res) => {
+    try{
+        const result = await controller.logoutAll(req.headers.authorization || "");
+        res.status(result.statusCode || 500).json(result);
+    }catch(e){
+        console.log("error", e)
+        res.json({
+            message:"Erro interno no servidor",
+            statusCode: 500
+        });
+    }
+});
+
 route.post('/create', async (req, res) => {
     try{
         const result = await controller.createUser(req.body);
@@ -40,6 +53,7 @@ route.get('/profile', async (req, res) => {
             throw { message: "Token is null", statusCode: 400 }
         }
         const result = await controller.getProfile(req.headers.authorization);
+        console.log('result na route', result)
         res.status(result.statusCode).json(result);
     }catch(err: any){
         res.status(err.statusCode).json({

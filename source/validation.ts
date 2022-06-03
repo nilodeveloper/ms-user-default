@@ -1,5 +1,6 @@
 import { z } from "zod";
 import * as jwt from 'jsonwebtoken';
+import * as repository from './repository';
 import 'dotenv/config';
 
 export function user(user: any) {
@@ -22,17 +23,27 @@ export function token(token: string) {
                 statusCode: 500
             }
         }
-        return jwt.verify(token, process.env.SECRET, function(err, decoded: any) {
+
+        const info = jwt.verify(token, process.env.SECRET, async function(err, decoded: any) {
             if(err){
-                throw {
+                return {
                     message: "Token inválido",
                     statusCode: 401
                 }
             }else{
-                console.log("decoded", decoded.email)
-                return decoded.email;
+                const validTokenTime = await repository.getValidTokenTime(decoded.email);
+                console.log('time do banco: ',validTokenTime);
+                console.log('time do token: ',decoded.generated);
+                if(validTokenTime > decoded.generated){
+                    return {
+                        message: "Token inválido, usuário deslogado de todos os dispositivos",
+                        statusCode: 403
+                    }
+                }
+                return {email: decoded.email, validTokenTime: decoded.validTokenTime};
             }
         });
+        return info;
     }catch(e){
         return e
     }

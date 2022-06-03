@@ -13,6 +13,18 @@ export async function login(credentials: any) {
     }
 }
 
+export async function logoutAll(token: string) {
+    try {
+        const result = await service.logoutAll(token);
+        return result;
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
+        }
+    }
+}
+
 export async function createUser(user: any) {
     try {
         const userValided = validation.user(user);
@@ -29,11 +41,12 @@ export async function createUser(user: any) {
 export async function getProfile(token: string) {
     try {
         const profile = await service.getProfile(token);
+        console.log('profile na controller', profile)
         return profile;
-    } catch (e) {
+    } catch (err: any) {
         return { 
-            message: e,
-            statusCode: 500
+            message: err.message || "Erro interno no servidor",
+            statusCode: err.statusCode || 500
         }
     }
 }
