@@ -1,10 +1,20 @@
 export async function userFormated(user: any) {
     try {
         const {name, lastname, login, email} = user;
-        return {name, lastname, login, email};
+        return {
+            data:{
+                name,
+                lastname,
+                login,
+                email
+            },
+            statusCode: 200,
+            message: "Usuário resgatado com sucesso"
+        };
     } catch (e) {
         return { 
-            message: e
+            message: e,
+            statusCode: 500,
         }
     }
 }
@@ -12,8 +22,10 @@ export async function userFormated(user: any) {
 export async function loginSuccess(message: any, token: string) {
     try {
         return {
+            data:{
+                token: token,
+            },
             message: "Login feito com sucesso",
-            token: token,
             statusCode: 200
         }
     } catch (e) {

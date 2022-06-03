@@ -41,7 +41,7 @@ route.get('/profile', async (req, res) => {
         const result = await controller.getProfile(req.headers.authorization);
         res.status(result.statusCode).json(result);
     }catch(err: any){
-        res.json({
+        res.status(err.statusCode).json({
             message:err.message,
             statusCode: err.statusCode
         });
@@ -60,11 +60,11 @@ route.post('/change/password', async (req, res) => {
     }
 });
 
-route.get('/user/:id', async (req, res) => {
+route.get('/user/:login', async (req, res) => {
     try{
-        const id = parseInt(req.params.id);
-        const result = await controller.getUser(id);
-        res.json(result);
+        const login = req.params.login;
+        const result = await controller.getUser(login);
+        res.status(result.statusCode).json(result);
     }catch(e){
         res.json({
             message:e,

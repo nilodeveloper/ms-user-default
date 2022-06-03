@@ -38,9 +38,9 @@ export async function getProfile(token: string) {
     }
 }
 
-export async function getUser(id: number) {
+export async function getUser(login: string) {
     try {
-        const user = await service.getUser(id);
+        const user = await service.getUser(login);
         return user;
     } catch (e) {
         return { 

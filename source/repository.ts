@@ -64,11 +64,11 @@ export async function updatePassword(id: any, newHash: any){
     return updateUser
 }
 
-export async function getUser(id: number){
+export async function getUser(login: string){
     const prisma = new PrismaClient()
     const user = await prisma.user.findUnique({
         where: {
-            id: id
+            login: login
         }
     })
     return user;

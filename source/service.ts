@@ -13,7 +13,7 @@ export async function login(credentials: any) {
             throw "Ocorreu um erro"
         }
         if(match){
-            const token = jwt.sign({ email: user.email, generated: new Date() }, process.env.SECRET);
+            const token = jwt.sign({ email: user.email, generated: Math.floor(Date.now() / 1000) }, process.env.SECRET);
             return response.loginSuccess("Login feito com sucesso!", token);
         }else{
             return response.loginFail("Falha de login. Usuário ou senha incorretos");
@@ -87,13 +87,17 @@ export async function changePassword(user: any) {
     }
 }
 
-export async function getUser(id: number) {
+export async function getUser(login: string) {
     try {
-        const user = await repository.getUser(id);
-        return response.userFormated(user);
+        const user = await repository.getUser(login);
+        if(user)
+            return response.userFormated(user);
+        else
+            return {message: "usuário não encontrado", statusCode: 400}
     } catch (e) {
         return { 
-            message: e
+            message: e,
+            statusCode: 500
         }
     }
 }
