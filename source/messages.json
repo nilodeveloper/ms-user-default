@@ -3,5 +3,6 @@
     "invalid_token": "Token inválido",
     "login_success": "Login feito com sucesso",
     "user_or_pass_incorrect": "Usuário ou senha inválidos",
-    "get_user_success": "Usuário resgatado com sucesso"
+    "get_user_success": "Usuário resgatado com sucesso",
+    "logout_all_success": "Deslogado de todos os dispositivos com sucesso!!!!"
 }

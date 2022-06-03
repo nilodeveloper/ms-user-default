@@ -60,13 +60,14 @@ export async function getUserByEmail(email: any){
 
 export async function registerValidTokenTime(email: any){
     const prisma = new PrismaClient()
-    const time = Date.now() / 1000;
+    const time = Math.floor(Date.now() / 1000);
+    console.log('email', email);
     const updateUser = await prisma.user.update({
         where: {
             email: email,
         },
         data: {
-            validTokenTime: Math.floor(time),
+            validTokenTime: time,
         },
     })
     return updateUser.validTokenTime

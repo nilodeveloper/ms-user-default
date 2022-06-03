@@ -29,14 +29,11 @@ export async function login(credentials: any) {
 export async function logoutAll(token: string) {
     try {
         const result: any = await validation.token(token);
-        const newTime = await repository.registerValidTokenTime(result.email);
-        return {
-            data:{
-                newTime
-            },
-            message: "Conta deslogada de todos os dispositivos com sucesso!",
-            statusCode: 200
+        if(result.statusCode){
+            return response.invalidToken();
         }
+        const newTime = await repository.registerValidTokenTime(result.email);
+        return response.logoutAll();
     } catch (err: any) {
         return { 
             message: err.message,

@@ -74,3 +74,33 @@ export async function loginFail() {
         }
     }
 }
+
+export async function logoutAll() {
+    try {
+        return {
+            message: messages.logout_all_success,
+            statusCode: 200
+        }
+    } catch (e) {
+        console.log('Error: ',e)
+        return { 
+            message: messages.server_error,
+            statusCode: 500
+        }
+    }
+}
+
+export async function invalidToken() {
+    try {
+        return {
+            message: messages.invalid_token,
+            statusCode: 401
+        }
+    } catch (e) {
+        console.log('Error: ',e)
+        return { 
+            message: messages.server_error,
+            statusCode: 500
+        }
+    }
+}
