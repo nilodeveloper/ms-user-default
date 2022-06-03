@@ -14,8 +14,9 @@ route.post('/login', async (req, res) => {
         const result = await controller.login(req.body)
         res.status(result.statusCode || 500).json(result);
     }catch(e){
+        console.log("error", e)
         res.json({
-            message:e,
+            message:"Erro interno no servidor",
             statusCode: 500
         });
     }
