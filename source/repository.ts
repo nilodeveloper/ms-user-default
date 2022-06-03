@@ -25,6 +25,22 @@ export async function getPasswordByEmail(email: any){
     return confirmUser
 }
 
+export async function getUserByEmail(email: any){
+    const prisma = new PrismaClient()
+    const confirmUser = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    if(!confirmUser){
+        return {
+            id: "",
+            email: "",
+        }
+    }
+    return confirmUser
+}
+
 export async function checkPassword(id: any){
     const prisma = new PrismaClient()
     const confirmUser = await prisma.user.findUnique({

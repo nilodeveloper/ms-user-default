@@ -33,6 +33,21 @@ route.post('/create', async (req, res) => {
     }
 });
 
+route.get('/profile', async (req, res) => {
+    try{
+        if(!req.headers.authorization){
+            throw { message: "Token is null", statusCode: 400 }
+        }
+        const result = await controller.getProfile(req.headers.authorization);
+        res.status(result.statusCode).json(result);
+    }catch(err: any){
+        res.json({
+            message:err.message,
+            statusCode: err.statusCode
+        });
+    }
+});
+
 route.post('/change/password', async (req, res) => {
     try{
         const result = await controller.changePassword(req.body);

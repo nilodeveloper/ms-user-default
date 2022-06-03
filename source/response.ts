@@ -23,6 +23,26 @@ export async function loginSuccess(message: any, token: string) {
     }
 }
 
+export async function getProfile(user: any) {
+    try {
+        return {
+            data: {
+                name: user.name,
+                lastname: user.lastname,
+                login: user.login,
+                email: user.email,
+            },
+            message: "Usuário resgatado com sucesso",
+            statusCode: 200
+        }
+    } catch (err: any) {
+        return { 
+            message: err.message || "Ocorreu um erro no servidor", 
+            statusCode: err.statusCode || 500
+        }
+    }
+}
+
 export async function loginFail(message: any) {
     try {
         return {

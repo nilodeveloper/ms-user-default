@@ -26,6 +26,18 @@ export async function createUser(user: any) {
     }
 }
 
+export async function getProfile(token: string) {
+    try {
+        const profile = await service.getProfile(token);
+        return profile;
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
+        }
+    }
+}
+
 export async function getUser(id: number) {
     try {
         const user = await service.getUser(id);

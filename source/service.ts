@@ -2,6 +2,7 @@ import * as repository from './repository';
 import * as response from  './response';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as validation from './validation';
 import 'dotenv/config'
 
 export async function login(credentials: any) {
@@ -38,6 +39,23 @@ export async function saveUser(user: any) {
     } catch (e) {
         return { 
             message: e
+        }
+    }
+}
+
+export async function getProfile(token: string) {
+    try {
+        const result: any = await validation.token(token);
+        if(result.statusCode){
+            return result
+        }else{
+            const user = await repository.getUserByEmail(result);
+            return response.getProfile(user);
+        }
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
         }
     }
 }
