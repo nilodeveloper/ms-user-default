@@ -48,9 +48,10 @@ route.get('/profile', async (req, res) => {
     }
 });
 
-route.post('/change/password', async (req, res) => {
+route.get('/profile/:login', async (req, res) => {
     try{
-        const result = await controller.changePassword(req.body);
+        const login = req.params.login;
+        const result = await controller.getUser(login);
         res.status(result.statusCode).json(result);
     }catch(e){
         res.json({
@@ -60,10 +61,9 @@ route.post('/change/password', async (req, res) => {
     }
 });
 
-route.get('/user/:login', async (req, res) => {
+route.post('/change/password', async (req, res) => {
     try{
-        const login = req.params.login;
-        const result = await controller.getUser(login);
+        const result = await controller.changePassword(req.body);
         res.status(result.statusCode).json(result);
     }catch(e){
         res.json({

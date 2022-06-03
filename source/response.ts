@@ -1,12 +1,11 @@
 export async function userFormated(user: any) {
     try {
-        const {name, lastname, login, email} = user;
+        const {name, lastname, login} = user;
         return {
             data:{
                 name,
                 lastname,
                 login,
-                email
             },
             statusCode: 200,
             message: "Usuário resgatado com sucesso"
