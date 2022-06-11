@@ -39,6 +39,7 @@ route.post('/logout/all', async (req, res) => {
 route.post('/create', async (req, res) => {
     try{
         const result = await controller.createUser(req.body);
+        console.log("result", result)
         res.json(result);
     }catch(e){
         res.json({

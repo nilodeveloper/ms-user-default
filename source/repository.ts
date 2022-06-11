@@ -25,6 +25,19 @@ export async function getPasswordByEmail(email: any){
     return confirmUser
 }
 
+export async function verifyEmail(email: any){
+    const prisma = new PrismaClient()
+    const confirmUser = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    if(!confirmUser){
+        return null
+    }
+    return confirmUser
+}
+
 export async function getValidTokenTime(email: any){
     const prisma = new PrismaClient()
     const confirmUser = await prisma.user.findUnique({

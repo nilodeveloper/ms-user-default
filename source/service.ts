@@ -5,6 +5,7 @@ import * as jwt from 'jsonwebtoken';
 import * as validation from './validation';
 import * as messages from './messages.json';
 import * as utils from './utils';
+import * as emailService from './email';
 import 'dotenv/config'
 
 export async function login(credentials: any) {
@@ -50,13 +51,15 @@ export async function logoutAll(token: string) {
 export async function saveUser(user: any) {
     try {
         const saltRounds = 10;
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-            bcrypt.hash(user.password, salt, async function(err, hash) {
-                user.password = hash;
-                const newUser = await repository.saveUser(user);
-                return response.userFormated(newUser);
-            });
+        
+        await emailService.sendEmail(user.email);
+
+        bcrypt.hash(user.password, saltRounds, async function(err, hash) {
+            user.password = hash;
+            await repository.saveUser(user);
         });
+
+        return response.userFormated(user);
     } catch (e) {
         return { 
             message: e
@@ -66,7 +69,7 @@ export async function saveUser(user: any) {
 
 export async function getProfile(token: string) {
     try {
-        const result: any = await validation.token(token);
+        const result: any = await validation.tokenAndEmail(token);
         if(result.statusCode){
             return result
         }else{
