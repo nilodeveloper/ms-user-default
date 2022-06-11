@@ -3,9 +3,9 @@ import 'dotenv/config'
 
 export async function sendConfirmationEmail(userEmail: string, codigo: string){
     let transporter = nodemailer.createTransport({ 
-        host: 'smtp.mail.yahoo.com',
-        port: 465,
-        service:'yahoo',
+        host: process.env.HOST_SEND_EMAIL,
+        port: Number(process.env.PORT_SEND_EMAIL),
+        service: process.env.SERVICE_SEND_EMAIL,
         secure: false,
         auth: { 
             user: process.env.USER_SEND_EMAIL, 
