@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export async function sendEmail(userEmail: string){
-    let success = true;
+export async function sendConfirmationEmail(userEmail: string){
     let transporter = nodemailer.createTransport({ 
         host: 'smtp.mail.yahoo.com',
         port: 465,

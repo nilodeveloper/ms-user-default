@@ -52,7 +52,7 @@ export async function saveUser(user: any) {
     try {
         const saltRounds = 10;
         
-        await emailService.sendEmail(user.email);
+        await emailService.sendConfirmationEmail(user.email);
 
         bcrypt.hash(user.password, saltRounds, async function(err, hash) {
             user.password = hash;
