@@ -15,6 +15,16 @@ export async function getPasswordByEmail(email: any){
             email: email
         }
     })
+
+    if(confirmUser?.confirmation == 0){
+        return {
+            message: "Por favor, confirme primeiro o cadastro no seu email de registro",
+            email: "",
+            password: "",
+            statusCode: 403
+        }
+    }
+
     if(!confirmUser){
         return {
             id: "",
@@ -22,6 +32,7 @@ export async function getPasswordByEmail(email: any){
             password: ""
         }
     }
+
     return confirmUser
 }
 
@@ -130,4 +141,23 @@ export async function getUser(login: string){
         }
     })
     return user;
+}
+
+export async function confirmCode(code: string){
+    const prisma = new PrismaClient()
+
+    const updateUser = await prisma.user.update({
+        where: {
+            confirmationCode: code,
+        },
+        data: {
+            confirmation: 1,
+        },
+    })
+
+    if(updateUser){
+        return updateUser
+    }
+
+    return {message:"Não foi possível confirmar", statusCode: 500};
 }

@@ -6,11 +6,18 @@ import * as validation from './validation';
 import * as messages from './messages.json';
 import * as utils from './utils';
 import * as emailService from './email';
+import { v4 as uuidv4 } from 'uuid';
 import 'dotenv/config'
 
 export async function login(credentials: any) {
     try {
-        const user = await repository.getPasswordByEmail(credentials.email);
+        const user:any = await repository.getPasswordByEmail(credentials.email);
+        if(user?.statusCode == 403){
+            throw {
+                message: "Por favor, faça a confirmação no seu email",
+                statusCode: 403
+            }
+        }
         const match = await bcrypt.compare(credentials.password, user.password);
         if(!process.env.SECRET){
             throw messages.invalid_secret
@@ -24,10 +31,10 @@ export async function login(credentials: any) {
         }else{
             return response.loginFail();
         }
-    } catch (e) {
+    } catch (e: any) {
         return { 
-            message: e,
-            statusCode: 500
+            message: e.message || e,
+            statusCode: e.statusCode || 500
         }
     }
 }
@@ -51,13 +58,14 @@ export async function logoutAll(token: string) {
 export async function saveUser(user: any) {
     try {
         const saltRounds = 10;
-        
-        await emailService.sendConfirmationEmail(user.email);
-
+        let code = uuidv4();
         bcrypt.hash(user.password, saltRounds, async function(err, hash) {
             user.password = hash;
+            user.confirmationCode = code;
             await repository.saveUser(user);
         });
+
+        await emailService.sendConfirmationEmail(user.email, code);
 
         return response.userFormated(user);
     } catch (e) {
@@ -138,6 +146,19 @@ export async function getUser(login: string) {
                 message: messages.user_not_found,
                 statusCode: 400
             }
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
+        }
+    }
+}
+
+
+export async function confirmRegister(code: string) {
+    try {
+        const result = await repository.confirmCode(code);
+        return response.userFormated(result);
     } catch (e) {
         return { 
             message: e,

@@ -1,27 +1,28 @@
 import nodemailer from 'nodemailer';
+import 'dotenv/config'
 
-export async function sendConfirmationEmail(userEmail: string){
+export async function sendConfirmationEmail(userEmail: string, codigo: string){
     let transporter = nodemailer.createTransport({ 
         host: 'smtp.mail.yahoo.com',
         port: 465,
         service:'yahoo',
         secure: false,
         auth: { 
-            user: 'msusergeneric@yahoo.com', 
-            pass: 'euazmzyopbzplqvx' 
+            user: process.env.USER_SEND_EMAIL, 
+            pass: process.env.PASSWORD_SEND_EMAIL
         },
         debug: false,
         logger: true
     });
     const mailOptions = {
-        from: 'msusergeneric@yahoo.com', // sender address
-        to: userEmail, // receiver (use array of string for a list)
-        subject: 'Bem vindo ao ms-user-generic', // Subject line
+        from: process.env.USER_SEND_EMAIL,
+        to: userEmail,
+        subject: 'Bem vindo ao ms-user-generic',
         html: `
-        
         <p>Muito bem vindo ao ms-user-generic!</p>
-        <p>Para concluir o cadastro no nosso sistema por favor clique no link abaixo</p>
-
+        <p>Para concluir o cadastro no nosso sistema por favor clique aqui
+        <a href="http://localhost:3000/confirm/email/${codigo}">aqui</a>
+        </p>
         `
     };
     await transporter.sendMail(mailOptions, (err, info) => {

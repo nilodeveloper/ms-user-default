@@ -77,6 +77,19 @@ route.get('/profile/:login', async (req, res) => {
     }
 });
 
+route.get('/confirm/email/:code', async (req, res) => {
+    try{
+        const code = req.params.code;
+        const result = await controller.confirmRegister(code);
+        res.status(200).json(result);
+    }catch(e){
+        res.json({
+            message:e,
+            statusCode: 500
+        });
+    }
+})
+
 route.post('/change/password', async (req, res) => {
     try{
         const result = await controller.changePassword(req.body);
