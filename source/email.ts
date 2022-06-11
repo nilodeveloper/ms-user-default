@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import * as message from './messages.json'
 import 'dotenv/config'
 
 export async function sendConfirmationEmail(userEmail: string, codigo: string){
@@ -17,7 +18,7 @@ export async function sendConfirmationEmail(userEmail: string, codigo: string){
     const mailOptions = {
         from: process.env.USER_SEND_EMAIL,
         to: userEmail,
-        subject: 'Bem vindo ao ms-user-generic',
+        subject: message.subject_register_email,
         html: `
         <p>Muito bem vindo ao ms-user-generic!</p>
         <p>Para concluir o cadastro no nosso sistema por favor clique aqui
