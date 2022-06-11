@@ -108,6 +108,23 @@ export async function changePassword(user: any) {
     }
 }
 
+export async function changeEmail(token: string, newEmail: string) {
+    try {
+        const result: any = await validation.token(token);
+        if(result.statusCode){
+            return result
+        }else{
+            const user = await repository.updateEmail(result.email, newEmail);
+            return response.getProfile(user);
+        }
+    } catch (e) {
+        return { 
+            message: e,
+            statusCode: 500
+        }
+    }
+}
+
 export async function getUser(login: string) {
     try {
         const user = await repository.getUser(login);

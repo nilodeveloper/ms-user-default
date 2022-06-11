@@ -96,6 +96,19 @@ export async function updatePassword(id: any, newHash: any){
     return updateUser
 }
 
+export async function updateEmail(oldEmail:string, newEmail: string){
+    const prisma = new PrismaClient()
+    const updateUser = await prisma.user.update({
+        where: {
+            email: oldEmail,
+        },
+        data: {
+            email: newEmail,
+        },
+    })
+    return updateUser
+}
+
 export async function getUser(login: string){
     const prisma = new PrismaClient()
     const user = await prisma.user.findUnique({
