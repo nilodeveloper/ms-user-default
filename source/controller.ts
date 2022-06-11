@@ -1,5 +1,6 @@
 import * as validation from './validation';
 import * as service from './service';
+import { User } from './interface';
 
 export async function login(credentials: any) {
     try {
@@ -25,7 +26,7 @@ export async function logoutAll(token: string) {
     }
 }
 
-export async function createUser(user: any) {
+export async function createUser(user: User) {
     try {
         const userValided = validation.user(user);
         const newUser = await service.saveUser(userValided);
