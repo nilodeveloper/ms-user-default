@@ -3,6 +3,8 @@ import * as response from  './response';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import * as validation from './validation';
+import * as messages from './messages.json';
+import * as utils from './utils';
 import 'dotenv/config'
 
 export async function login(credentials: any) {
@@ -10,10 +12,13 @@ export async function login(credentials: any) {
         const user = await repository.getPasswordByEmail(credentials.email);
         const match = await bcrypt.compare(credentials.password, user.password);
         if(!process.env.SECRET){
-            throw "Ocorreu um erro"
+            throw messages.invalid_secret
         }
         if(match){
-            const token = jwt.sign({ email: user.email, generated: Math.floor(Date.now() / 1000) }, process.env.SECRET);
+            const token = jwt.sign(
+                    { email: user.email, generated: utils.generateTimestampNow() },
+                    process.env.SECRET
+                 );
             return response.loginSuccess(token);
         }else{
             return response.loginFail();
@@ -87,12 +92,12 @@ export async function changePassword(user: any) {
             });
         }else{
             return {
-                message: "Erro ao tentar alterar senha. Senha atual não está correta",
+                message: messages.invalid_current_password,
                 statusCode: 401 
             }
         }
         return { 
-            message: "Senha alterada com sucesso",
+            message: messages.success_change_password,
             statusCode: 200
         }
     } catch (e) {
@@ -109,7 +114,10 @@ export async function getUser(login: string) {
         if(user)
             return response.userFormated(user);
         else
-            return {message: "usuário não encontrado", statusCode: 400}
+            return {
+                message: messages.user_not_found,
+                statusCode: 400
+            }
     } catch (e) {
         return { 
             message: e,

@@ -1,8 +1,12 @@
 {
     "server_error": "Erro interno do servidor",
+    "invalid_secret": "Secret não existe",
     "invalid_token": "Token inválido",
     "login_success": "Login feito com sucesso",
     "user_or_pass_incorrect": "Usuário ou senha inválidos",
     "get_user_success": "Usuário resgatado com sucesso",
-    "logout_all_success": "Deslogado de todos os dispositivos com sucesso!!!!"
+    "success_change_password": "Senha alterada com sucesso",
+    "user_not_found": "Usuário não encontrado",
+    "logout_all_success": "Deslogado de todos os dispositivos com sucesso",
+    "invalid_current_password": "Erro ao tentar alterar senha. Senha atual não está correta"
 }
