@@ -18,4 +18,5 @@ model User {
   email           String    @unique
   password        String
   validTokenTime  Int       @default(0)
+  confirmation    Int       @default(0)
 }
