@@ -1,12 +1,13 @@
 import express from 'express';
 import * as controller from './controller';
 import * as messages from './messages.json';
+import 'dotenv/config'
 
 export const route = express()
 
 route.get('/', (req, res) => {
     res.json({
-        server: "is on ${process.env.PORT}"
+        server: `is on ${process.env.PORT}`
     });
 });
 

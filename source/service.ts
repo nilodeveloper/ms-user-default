@@ -1,6 +1,6 @@
 import * as repository from './repository';
 import * as response from  './response';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import * as validation from './validation';
 import * as messages from './messages.json';
@@ -56,6 +56,7 @@ export async function logoutAll(token: string) {
 }
 
 export async function saveUser(user: any) {
+    console.log('')
     try {
         const saltRounds = 10;
         let code = uuidv4();
