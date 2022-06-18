@@ -1,6 +1,5 @@
 import express from 'express';
-import * as controller from '../controller';
-import * as messages from '../messages.json';
+import * as controller from '../controllers/getUser.controller';
 import 'dotenv/config'
 
 export const profileLogin = express()

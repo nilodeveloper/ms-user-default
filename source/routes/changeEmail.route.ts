@@ -1,7 +1,6 @@
 import express from 'express';
-import * as controller from '../controller';
-import * as messages from '../messages.json';
-import 'dotenv/config'
+import * as controller from '../controllers/changeEmail.controller';
+import 'dotenv/config';
 
 export const changeEmail = express()
 
