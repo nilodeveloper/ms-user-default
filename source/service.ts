@@ -3,7 +3,7 @@ import * as response from  './response';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import * as validation from './validation';
-import * as messages from './messages.json';
+import * as messages from './constants/messages.json';
 import * as utils from './utils';
 import * as emailService from './email';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +11,13 @@ import 'dotenv/config'
 
 export async function login(credentials: any) {
     try {
+        const result: any = await validation.credentials(credentials);
         const user:any = await repository.getPasswordByEmail(credentials.email);
+
+        if(result.statusCode){
+            return response.invalidToken();
+        }
+
         if(user?.statusCode == 403){
             throw {
                 message: "Por favor, faça a confirmação no seu email",
@@ -56,22 +62,27 @@ export async function logoutAll(token: string) {
 }
 
 export async function saveUser(user: any) {
-    console.log('')
     try {
-        const saltRounds = 10;
-        let code = uuidv4();
-        bcrypt.hash(user.password, saltRounds, async function(err, hash) {
-            user.password = hash;
-            user.confirmationCode = code;
-            await repository.saveUser(user);
-        });
+        let userExist = await repository.verifyEmail(user.email)
+        if(!userExist){
+            const saltRounds = 10;
+            let code = uuidv4();
+            bcrypt.hash(user.password, saltRounds, async function(err, hash) {
+                user.password = hash;
+                user.confirmationCode = code;
+                await repository.saveUser(user);
+            });
 
-        await emailService.sendConfirmationEmail(user.email, code);
+            await emailService.sendConfirmationEmail(user.email, code);
 
-        return response.userFormated(user);
+            return response.userFormated(user);
+        }else{
+            return response.userAlreadyExists();
+        }
     } catch (e) {
         return { 
-            message: e
+            message: e,
+            statusCode: 500
         }
     }
 }

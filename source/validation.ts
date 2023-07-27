@@ -1,6 +1,7 @@
 import { z } from "zod";
 import * as jwt from 'jsonwebtoken';
 import * as repository from './repository';
+import * as messages from './constants/messages.json';
 import 'dotenv/config';
 
 export function user(user: any) {
@@ -15,6 +16,16 @@ export function user(user: any) {
     return user;
 }
 
+export function credentials(credentials: any) {
+    const validationCredentials = z.object({
+        email: z.string(),
+        password: z.string(),
+    });
+    const validation = validationCredentials.safeParse(credentials);
+    console.log(validation)
+    return validation;
+}
+
 export function token(token: string) {
     try{
         if(!process.env.SECRET){
@@ -27,7 +38,7 @@ export function token(token: string) {
         const info = jwt.verify(token, process.env.SECRET, async function(err, decoded: any) {
             if(err){
                 return {
-                    message: "Token inválido",
+                    message: messages.token.invalid_token,
                     statusCode: 401
                 }
             }else{

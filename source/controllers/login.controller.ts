@@ -1,6 +1,7 @@
-import * as service from '../service';
+import * as service from '../services/login.service';
+import {Credentials} from '../interface';
 
-export async function login(credentials: any) {
+export async function login(credentials: Credentials) {
     try {
         const result = await service.login(credentials);
         return result;

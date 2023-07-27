@@ -1,4 +1,9 @@
-import * as messages from './messages.json';
+import * as messages from './constants/messages.json';
+import * as interfaceError from './errors/interface.error'
+import * as genericError from './errors/generic.error'
+import * as userOrPasswordIncorrect from './errors/userOrPass.error'
+import * as userAlreadyExist from './errors/userAlreadyExist.error'
+import {Credentials} from './interface';
 
 export async function userFormated(user: any) {
     try {
@@ -12,12 +17,16 @@ export async function userFormated(user: any) {
             message: messages.get_user_success,
             statusCode: 200,
         };
-    } catch (e) {
-        console.log('Error: ',e)
-        return { 
-            message: messages.server_error, 
-            statusCode: 500
-        }
+    } catch (err) {
+        return genericError.execute(err)
+    }
+}
+
+export async function invalidCredentials(credentials: Credentials, result: any) {
+    try {
+        return interfaceError.execute(credentials, result)
+    } catch (err: any) {
+        return genericError.execute(err)
     }
 }
 
@@ -34,11 +43,7 @@ export async function getProfile(user: any) {
             statusCode: 200,
         }
     } catch (err: any) {
-        console.log('Error: ',err)
-        return { 
-            message: messages.server_error, 
-            statusCode: 500
-        }
+        return genericError.execute(err)
     }
 }
 
@@ -51,27 +56,24 @@ export async function loginSuccess(token: string) {
             message: messages.login_success,
             statusCode: 200
         }
-    } catch (e) {
-        console.log('Error: ',e)
-        return { 
-            message: messages.server_error,
-            statusCode: 500
-        }
+    } catch (err) {
+        return genericError.execute(err)
+    }
+}
+
+export async function userAlreadyExists() {
+    try {
+        return userAlreadyExist.execute()
+    } catch (err) {
+        return genericError.execute(err)
     }
 }
 
 export async function loginFail() {
     try {
-        return {
-            message: messages.user_or_pass_incorrect,
-            statusCode: 401
-        }
-    } catch (e) {
-        console.log('Error: ',e)
-        return { 
-            message: messages.server_error,
-            statusCode: 500
-        }
+        return userOrPasswordIncorrect.execute()
+    } catch (err) {
+        return genericError.execute(err)
     }
 }
 
@@ -81,12 +83,8 @@ export async function logoutAll() {
             message: messages.logout_all_success,
             statusCode: 200
         }
-    } catch (e) {
-        console.log('Error: ',e)
-        return { 
-            message: messages.server_error,
-            statusCode: 500
-        }
+    } catch (err) {
+        return genericError.execute(err)
     }
 }
 
@@ -96,11 +94,7 @@ export async function invalidToken() {
             message: messages.invalid_token,
             statusCode: 401
         }
-    } catch (e) {
-        console.log('Error: ',e)
-        return { 
-            message: messages.server_error,
-            statusCode: 500
-        }
+    } catch (err) {
+        return genericError.execute(err)
     }
 }

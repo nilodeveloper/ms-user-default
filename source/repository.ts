@@ -5,10 +5,11 @@ export async function saveUser(user: any){
     const newUser = await prisma.user.create({
         data: user
     })
-    return newUser;
+     return newUser;
 }
 
-export async function getPasswordByEmail(email: any){
+export async function getPasswordByEmail(email: string){
+    console.log("email", email)
     const prisma = new PrismaClient()
     const confirmUser = await prisma.user.findUnique({
         where: {
@@ -36,7 +37,7 @@ export async function getPasswordByEmail(email: any){
     return confirmUser
 }
 
-export async function verifyEmail(email: any){
+export async function verifyEmail(email: string){
     const prisma = new PrismaClient()
     const confirmUser = await prisma.user.findUnique({
         where: {

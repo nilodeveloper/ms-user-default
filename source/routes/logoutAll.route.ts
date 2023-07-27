@@ -1,6 +1,6 @@
 import express from 'express';
 import * as controller from '../controllers/logoutAll.controller';
-import * as messages from '../messages.json';
+import * as messages from '../constants/messages.json';
 import 'dotenv/config'
 
 export const logoutAll = express()

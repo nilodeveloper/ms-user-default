@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import * as message from './messages.json'
+import * as message from './constants/messages.json'
 import 'dotenv/config'
 
 export async function sendConfirmationEmail(userEmail: string, codigo: string){

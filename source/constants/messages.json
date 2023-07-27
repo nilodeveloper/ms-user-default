@@ -9,5 +9,15 @@
     "user_not_found": "Usuário não encontrado",
     "logout_all_success": "Deslogado de todos os dispositivos com sucesso",
     "invalid_current_password": "Erro ao tentar alterar senha. Senha atual não está correta",
-    "subject_register_email": "Bem vindo ao ms-user-generic"
+    "subject_register_email": "Bem vindo ao ms-user-generic",
+    "token":{
+        "is_null": "Não foi enviado um token na requisição",
+        "invalid_token": "Token inválido"
+    },
+    "credentials":{
+        "invalid": "Body request incorreto"
+    },
+    "register":{
+        "user_already_exist": "Usuário já cadastrado"
+    }
 }
