@@ -65,7 +65,7 @@ export async function saveUser(user: any) {
     try {
         let userExist = await repository.verifyEmail(user.email)
         if(!userExist){
-            const saltRounds = 10; // teste
+            const saltRounds = 10;
             let code = uuidv4();
             bcrypt.hash(user.password, saltRounds, async function(err, hash) {
                 user.password = hash;

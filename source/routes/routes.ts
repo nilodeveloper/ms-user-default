@@ -7,6 +7,7 @@ import { logoutAll } from './logoutAll.route';
 import { profile } from './profile.route';
 import { profileLogin } from './profileLogin.route';
 import { helloWorld } from './helloWorld.route';
+import { notFound } from './404.route';
 
 export function routes(){
     return [
@@ -19,6 +20,7 @@ export function routes(){
         logoutAll,
         profile,
         profileLogin,
+        notFound
     ]
 }
 
