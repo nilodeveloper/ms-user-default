@@ -1,10 +1,11 @@
 import express from 'express';
 import * as controller from '../controllers/getUser.controller';
+import * as routes from '../constants/routes.json';
 import 'dotenv/config'
 
 export const profileLogin = express()
 
-profileLogin.get('/profile/:login', async (req, res) => {
+profileLogin.get(routes.profile.getProfileByLogin, async (req, res) => {
     try{
         const login = req.params.login;
         const result = await controller.getUser(login);

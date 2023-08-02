@@ -1,10 +1,11 @@
 import express from 'express';
 import * as controller from '../controllers/getProfile.controller';
+import * as routes from '../constants/routes.json';
 import 'dotenv/config'
 
 export const profile = express()
 
-profile.get('/profile', async (req, res) => {
+profile.get(routes.profile.getProfile, async (req, res) => {
     try{
         if(!req.headers.authorization){
             throw { message: "Token is null", statusCode: 400 }

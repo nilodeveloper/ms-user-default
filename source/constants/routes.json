@@ -2,5 +2,9 @@
     "email":{
         "change": "/change/email",
         "confirm": "/confirm/email/:code"
+    },
+    "profile":{
+        "getProfile": "/profile",
+        "getProfileByLogin": "/profile/:login"
     }
 }
